@@ -1,5 +1,5 @@
 "use client";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import {
     QueryClient,
     QueryClientProvider,
@@ -7,6 +7,13 @@ import {
 
 const queryClient = new QueryClient();
 function ClientProvider({ children }: { children: React.ReactNode }) {
+    const [mounted, setMounted] = useState<boolean>(false)
+
+    useEffect(() => {
+        setMounted(true)
+    }, [])
+
+    if (!mounted) return null
     return (
         <QueryClientProvider client={queryClient}>
             {children}

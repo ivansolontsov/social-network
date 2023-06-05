@@ -1,9 +1,9 @@
 import Header from '@/components/common/Header/Header'
 import '../styles/globals.scss'
-import { Inter } from 'next/font/google'
+import { Inter, Rubik } from 'next/font/google'
 import ClientProvider from '@/modules/ClientProvider'
 
-const inter = Inter({ subsets: ['latin'] })
+const rubik = Rubik({ subsets: ['latin'] })
 
 export const metadata = {
   title: 'Create Next App',
@@ -17,7 +17,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className={inter.className}>
+      <body className={rubik.className}>
         <main>
           <ClientProvider>
             {children}
