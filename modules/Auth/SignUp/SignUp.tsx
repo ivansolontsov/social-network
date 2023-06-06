@@ -5,16 +5,19 @@ import React from 'react'
 import s from './SignUp.module.scss'
 import { signUpFetcher } from '../Api'
 import { useMutation } from '@tanstack/react-query'
+import { useRouter } from 'next/navigation'
+import { AUTH_ROUTE } from '@/src/consts/routes'
 
 const SignUp = (props: any) => {
     const [form] = Form.useForm();
     const { mutateAsync: register } = useMutation(signUpFetcher);
-
+    const router = useRouter()
     const handleRegister = async () => {
         try {
             const res = await register(form.getFieldsValue())
             form.resetFields()
             message.success('Успешно зареган')
+            router.push(AUTH_ROUTE)
         } catch (e: any) {
             message.error(e.message)
         }

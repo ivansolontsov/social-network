@@ -4,6 +4,7 @@ import {
     QueryClient,
     QueryClientProvider,
 } from "@tanstack/react-query";
+import UserAuthWatcher from "./User/components/UserAuthWatcher/UserAuthWatcher";
 
 const queryClient = new QueryClient();
 function ClientProvider({ children }: { children: React.ReactNode }) {
@@ -16,7 +17,9 @@ function ClientProvider({ children }: { children: React.ReactNode }) {
     if (!mounted) return null
     return (
         <QueryClientProvider client={queryClient}>
-            {children}
+            <UserAuthWatcher>
+                {children}
+            </UserAuthWatcher>
         </QueryClientProvider>
     );
 }
