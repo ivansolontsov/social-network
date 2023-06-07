@@ -13,12 +13,14 @@ export default async function Main() {
     )
 
     const authorizedPage = (
-        <MainPageAuthorized />
+        <>
+            <h1>Social Network</h1>
+            <MainPageAuthorized />
+        </>
     )
 
     if (accessToken) {
         const isAuth = await testAuthFetcher(accessToken.value.toString());
-        console.log(isAuth)
         if (isAuth) {
             return authorizedPage
         } else {

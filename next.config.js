@@ -2,7 +2,7 @@
 const nextConfig = {
     sassOptions: {
         // eslint-disable-next-line quotes
-        prependData: `@use 'styles/mixins' as *;`
+        prependData: `@use 'styles/mixins.scss' as *;`
       },
     env: {
         APP_BASE_URL: process.env.APP_BASE_URL

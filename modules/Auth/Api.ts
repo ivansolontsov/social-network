@@ -41,6 +41,7 @@ export const testAuthFetcher = async (token?: string): Promise<boolean> => {
             "Content-Type": "application/json",
             Authorization: `Bearer ${token ? token : accessToken}`,
         },
+        cache: 'no-cache',
     });
     if (!response.ok) {
         return false;
