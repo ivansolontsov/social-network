@@ -5,7 +5,7 @@ export interface ISocialPost {
     postText: string
     postCreatedDate: string
     likes: ILike[]
-    author: Author
+    author: IAuthor
 }
 
 export interface ILike {
