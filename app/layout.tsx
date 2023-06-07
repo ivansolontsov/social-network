@@ -1,6 +1,6 @@
 import Header from '@/components/common/Header/Header'
 import '../styles/globals.scss'
-import { Inter, Rubik } from 'next/font/google'
+import { Inter } from 'next/font/google'
 import ClientProvider from '@/modules/ClientProvider'
 
 const inter = Inter({ subsets: ['latin'] })

@@ -1,4 +1,5 @@
-import Hero from '@/components/landing/hero/Hero';
+import MainPageAuthorized from '@/components/MainPageAuthorized/MainPageAuthorized';
+import MainPageUnauthorized from '@/components/MainPageUnauthorized/MainPageUnauthorized';
 import { testAuthFetcher } from '@/modules/Auth/Api'
 import { cookies } from 'next/dist/client/components/headers';
 import React from 'react'
@@ -8,11 +9,11 @@ export default async function Main() {
     const accessToken = cookiesStore.get('accessToken');
 
     const unauthorizedPage = (
-        <Hero />
+        <MainPageUnauthorized />
     )
 
     const authorizedPage = (
-        <>Authorized</>
+        <MainPageAuthorized />
     )
 
     if (accessToken) {
