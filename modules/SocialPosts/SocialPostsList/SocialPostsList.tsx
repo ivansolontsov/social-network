@@ -1,8 +1,8 @@
-'use client'
+"use client";
 
-import React, { useState } from 'react';
+import React, { FC, useState } from 'react';
 import s from './SocialPostsList.module.scss';
-import SocialPostCard from '../SocialPostCard/SocialPostCard';
+import { SocialPostCard } from '../SocialPostCard/SocialPostCard';
 import { useQuery } from '@tanstack/react-query';
 import { getAllPostsFetcher } from '../api';
 import { Skeleton } from 'antd';
@@ -10,17 +10,16 @@ import { ISocialPost } from '../type';
 
 type Props = {}
 
-const SocialPostsList = async (props: Props) => {
+export const SocialPostsList: FC<Props> = (props) => {
+    const [posts, setPosts] = useState<ISocialPost[]>([])
+
     const { isLoading } = useQuery(['getAllPosts'],
-        getAllPostsFetcher,
+        () => getAllPostsFetcher(),
         {
             onSuccess: (data) => {
-                console.log(data)
                 setPosts(data)
             }
         })
-
-    const [posts, setPosts] = useState<ISocialPost[]>([])
 
     return (
         <div className={s.socialPostsList}>
@@ -28,14 +27,12 @@ const SocialPostsList = async (props: Props) => {
                 ? <Skeleton active={true} avatar={true} />
                 : posts && (
                     <>
-                        {posts.map((post) => (
-                            <SocialPostCard data={post} />
+                        {posts.map((post, index) => (
+                            <SocialPostCard data={post} key={index} />
                         ))}
                     </>
                 )
             }
         </div >
     )
-}
-
-export default SocialPostsList
+};

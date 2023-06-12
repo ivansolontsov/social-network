@@ -1,4 +1,4 @@
-import SocialPostsList from '@/modules/SocialPosts/SocialPostsList/SocialPostsList'
+import { SocialPostsList } from '@/modules/SocialPosts/SocialPostsList/SocialPostsList'
 import React from 'react'
 
 type Props = {}
