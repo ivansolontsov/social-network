@@ -1,0 +1,21 @@
+.sideNavigation {
+    border-radius: 10px;
+    min-width: 200px;
+}
+
+.sideNavigationLink {
+    padding: 10px;
+    border-radius: 5px;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+
+    &:hover {
+        background-color: $accentColor;
+    }
+}
+
+.sideNavigationIcon {
+    font-size: 24px;
+    color: $linkColor;
+}

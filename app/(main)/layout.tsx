@@ -12,9 +12,7 @@ export default async function MainLayout({ authorized, unauthorized }: { authori
             return (
                 <div className="container">
                     <div className="pageWrapper">
-                        <div className="navigation">
-                            <SideNavigation />
-                        </div>
+                        <SideNavigation />
                         <div className="content">
                             {authorized}
                         </div>
