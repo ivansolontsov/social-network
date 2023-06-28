@@ -2,7 +2,7 @@ import { getCookie } from "cookies-next";
 
 
 export const signInFetcher = async ({ email, password }: { email: string, password: string }): Promise<{ accessToken: string }> => {
-    const response = await fetch(`${process.env.APP_BASE_URL}/api/Login`, {
+    const response = await fetch(`${process.env.APP_BASE_URL}/identity/signin`, {
         method: "POST",
         headers: {
             "Content-Type": "application/json"
@@ -18,7 +18,7 @@ export const signInFetcher = async ({ email, password }: { email: string, passwo
 }
 
 export const signUpFetcher = async ({ email, password, firstName, lastName }: { email: string, password: string, firstName: string, lastName: string }) => {
-    const response = await fetch(`${process.env.APP_BASE_URL}/api/User/CreateUser`, {
+    const response = await fetch(`${process.env.APP_BASE_URL}/identity/signup`, {
         method: "POST",
         headers: {
             "Content-Type": "application/json"
@@ -35,7 +35,7 @@ export const signUpFetcher = async ({ email, password, firstName, lastName }: { 
 
 export const testAuthFetcher = async (token?: string): Promise<boolean> => {
     const accessToken = getCookie('accessToken')
-    const response = await fetch(`${process.env.APP_BASE_URL}/api/Login/TestAuth`, {
+    const response = await fetch(`${process.env.APP_BASE_URL}/identity/TestAuth`, {
         method: "GET",
         headers: {
             "Content-Type": "application/json",
