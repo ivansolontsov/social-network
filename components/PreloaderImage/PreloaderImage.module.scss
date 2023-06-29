@@ -1,0 +1,31 @@
+@keyframes bgSkeletonAnimate {
+  0% {
+    background-color: #00000000;
+  }
+  100% {
+    background-color: #00000017;
+  }
+}
+
+.preloaderWrapper {
+  position: absolute;
+  left: 0;
+  right: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: rgba(0, 0, 0, 0.4);
+}
+
+.preloaderGradient {
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #00000000;
+  backdrop-filter: blur(8px);
+  animation: bgSkeletonAnimate 1s cubic-bezier(0, 0.29, 1, 0.72) 0s infinite alternate;
+}
+

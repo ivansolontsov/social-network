@@ -1,5 +1,14 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+    images: {
+        domains: ["localhost"],
+        remotePatterns: [
+            {
+                protocol: "http",
+                hostname: "**.example.com",
+            },
+        ],
+    },
     sassOptions: {
         prependData: `@use 'styles/mixins.scss' as *;`
     },

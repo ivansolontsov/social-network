@@ -10,12 +10,10 @@ export default async function MainLayout({ authorized, unauthorized }: { authori
         const isAuth = await testAuthFetcher(accessToken.value.toString());
         if (isAuth) {
             return (
-                <div className="container">
-                    <div className="pageWrapper">
-                        <SideNavigation />
-                        <div className="content">
-                            {authorized}
-                        </div>
+                <div className="container pageWrapper">
+                    <SideNavigation />
+                    <div className="content">
+                        {authorized}
                     </div>
                 </div>
             )

@@ -1,9 +1,19 @@
 @use "sass:math";
 
+$inversedTextColor: #fff;
 $textColor: #000;
 $linkColor: #2b5885;
 $backgroundColor: #edeef0;
 $accentColor: #dcdcdc;
+$blockRadius: 15px;
+$bigBlockRadius: 60px;
+$halfBigBlockRadius: 30px;
+$blockColor: white;
+
+
+
+//
+$mobilePadding: 15px;
 
 @mixin container {
     width: 100%;

@@ -25,6 +25,7 @@ const SignIn = (props: Props) => {
             setAuth(true)
             message.success('Успешно авторизирован');
             router.push('/')
+            router.refresh();
         } catch (e: any) {
             message.error(e.message)
         }

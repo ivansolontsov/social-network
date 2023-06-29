@@ -13,7 +13,7 @@ export const SocialPostCard: React.FC<Props> = ({ data }) => {
     return (
         <article className={s.socialPostCard}>
             <div className={s.socialPostCardHead}>
-                <Avatar size={50} />
+                <Avatar size={50} src={data.author.avatar} />
                 <div className={s.socialPostCardHeadTitle}>
                     <h3>{data.author.name}</h3>
                     <data>{data.postCreatedDate}</data>

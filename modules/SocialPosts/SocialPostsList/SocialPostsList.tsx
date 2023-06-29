@@ -21,8 +21,6 @@ export const SocialPostsList: FC<Props> = (props) => {
             }
         })
 
-
-
     return (
         <div className={s.socialPostsList}>
             {isLoading
