@@ -1,11 +1,11 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
     images: {
-        domains: ["localhost"],
+        domains: ["vm687554.vps.masterhost.tech, localhost"],
         remotePatterns: [
             {
-                protocol: "http",
-                hostname: "**.example.com",
+                protocol: "https",
+                hostname: "vm687554.vps.masterhost.tech",
             },
         ],
     },
