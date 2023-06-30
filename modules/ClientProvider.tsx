@@ -5,6 +5,8 @@ import {
     QueryClientProvider,
 } from "@tanstack/react-query";
 import UserAuthWatcher from "./User/components/UserAuthWatcher/UserAuthWatcher";
+import 'dayjs/locale/ru';
+
 
 const queryClient = new QueryClient();
 function ClientProvider({ children }: { children: React.ReactNode }) {

@@ -3,7 +3,7 @@
 import React from 'react'
 import s from './SideNavigation.module.scss'
 import Link from 'next/link'
-import { InboxOutlined, LogoutOutlined, MessageOutlined, UserOutlined } from '@ant-design/icons'
+import { InboxOutlined, LogoutOutlined, MessageOutlined, UserOutlined, UserSwitchOutlined, UsergroupAddOutlined } from '@ant-design/icons'
 import { Button } from 'antd'
 import { useUsersStore } from '@/modules/User/store'
 import { useRouter } from 'next/navigation'
@@ -35,6 +35,15 @@ export const SideNavigation: React.FC<Props> = (props) => {
                 href={'/'}
             >
                 <MessageOutlined className={s.sideNavigationIcon} /> Сообщения
+            </Link>
+            <Link
+                className={s.sideNavigationLink}
+                href={'/friends'}
+            >
+                <UsergroupAddOutlined className={s.sideNavigationIcon} /> Мои Друзья
+                <span className={s.linkNotification}>
+                    1
+                </span>
             </Link>
             <Link
                 href={"#"}

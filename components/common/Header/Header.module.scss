@@ -10,6 +10,7 @@
     @include container;
     display: flex;
     align-items: center;
+    justify-content: space-between;
 }
 
 .logo {
@@ -20,4 +21,37 @@
     font-size: 8px;
     font-weight: 100;
     font-family: var(--roboto-font);
+}
+
+.headerLinksList {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+
+    a {
+        display: flex;
+        align-items: center;
+        color: $textColor;
+        gap: 10px;
+        background: $blockColor;
+        padding: 4px 8px;
+        border-radius: $blockRadius;
+        transition: all .3s;
+        border: 1px solid $blockColor;
+
+        &:hover {
+            background: transparent;
+            color: $inversedTextColor;
+            border: 1px solid $blockColor;
+        }
+
+        span {
+            font-size: 24px;
+        }
+
+        strong {
+            font-size: 12px;
+            font-weight: 400;
+        }
+    }
 }

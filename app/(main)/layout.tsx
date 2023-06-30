@@ -1,4 +1,6 @@
+import Header from "@/components/common/Header/Header";
 import SideNavigation from "@/components/common/SideNavigation/SideNavigation";
+import Modal from "@/components/ui/Modal/Modal";
 import { testAuthFetcher } from "@/modules/Auth/Api";
 import { cookies } from "next/dist/client/components/headers";
 
@@ -10,12 +12,16 @@ export default async function MainLayout({ authorized, unauthorized }: { authori
         const isAuth = await testAuthFetcher(accessToken.value.toString());
         if (isAuth) {
             return (
-                <div className="container pageWrapper">
-                    <SideNavigation />
-                    <div className="content">
-                        {authorized}
+                <>
+                    <Header />
+                    <div className="container pageWrapper">
+                        <SideNavigation />
+                        <div className="content">
+                            {authorized}
+                        </div>
+                        <Modal />
                     </div>
-                </div>
+                </>
             )
         } else {
             return (

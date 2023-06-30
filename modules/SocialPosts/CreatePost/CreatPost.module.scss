@@ -1,0 +1,57 @@
+.createPostBlock {
+    @include block;
+}
+
+.createPostInputWrapper {
+    position: relative;
+    display: flex;
+    gap: 15px;
+    width: 100%;
+}
+
+.createPostForm {
+    width: 100%;
+}
+
+.createPostFormItem {}
+
+.createPostInput {
+    padding-left: 20px;
+    border-radius: $halfBigBlockRadius;
+    padding-right: 60px;
+}
+
+.createPostAvatar {
+    min-height: 40px;
+    min-width: 40px;
+}
+
+.createPostButtons {
+    z-index: 1;
+    position: absolute;
+    right: 0px;
+    top: 0px;
+    height: 100%;
+    min-width: 100px;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 10px;
+    padding-right: 20px;
+
+    button {
+        display: flex;
+        margin: 0px;
+        padding: 0px;
+        width: fit-content;
+        align-items: center;
+        justify-content: center;
+        color: $linkColor;
+        opacity: .66;
+        transition: opacity .3s;
+
+        &:hover {
+            opacity: 1;
+        }
+    }
+}

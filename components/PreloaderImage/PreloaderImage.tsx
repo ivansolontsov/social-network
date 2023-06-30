@@ -71,6 +71,7 @@ const PreloaderImage = (props: PrealoaderImageProps) => {
           blurDataURL={props.blurDataURL}
           unoptimized={props.unoptimized}
           className={props.imgClassName}
+          onClick={props.onClick}
           onLoadingComplete={() => setLoading(false)}
           style={{
             objectFit: props.objectFit ? props.objectFit : 'contain'

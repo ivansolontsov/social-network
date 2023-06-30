@@ -1,5 +1,20 @@
 @import './normalize.css';
 
+* {
+    box-sizing: border-box;
+    font-family: var(--gilroy-font);
+
+    &:focus-visible {
+        // outline: 1px solid $primary;
+    }
+}
+
+html {
+    scroll-behavior: smooth;
+    overflow-x: hidden;
+}
+
+
 body {
     background-color: $backgroundColor;
     font-family: var(--inter-font);

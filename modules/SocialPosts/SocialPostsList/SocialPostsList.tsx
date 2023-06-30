@@ -8,19 +8,12 @@ import { getAllPostsFetcher } from '../api';
 import { Skeleton } from 'antd';
 import { ISocialPost } from '../type';
 
-type Props = {}
+type Props = {
+    isLoading: boolean,
+    posts: ISocialPost[] | undefined
+}
 
-export const SocialPostsList: FC<Props> = (props) => {
-    const [posts, setPosts] = useState<ISocialPost[]>([])
-
-    const { isLoading } = useQuery(['getAllPosts'],
-        () => getAllPostsFetcher(),
-        {
-            onSuccess: (data) => {
-                setPosts(data)
-            }
-        })
-
+export const SocialPostsList: FC<Props> = ({ isLoading, posts }) => {
     return (
         <div className={s.socialPostsList}>
             {isLoading

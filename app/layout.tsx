@@ -1,4 +1,3 @@
-import Header from '@/components/common/Header/Header'
 import { Inter, Roboto_Slab } from 'next/font/google'
 import ClientProvider from '@/modules/ClientProvider'
 
@@ -18,19 +17,17 @@ export const metadata = {
   title: 'Social Network',
   description: 'Social Network',
   viewport: "width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0",
+  icons: {
+    icon: '/images/icon.webp'
+  }
 }
 
-export default function RootLayout({
-  children,
-}: {
-  children: React.ReactNode
-}) {
+export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en" className={inter.variable + ' ' + roboto.variable} >
+    <html lang="ru" className={inter.variable + ' ' + roboto.variable} >
       <body>
         <main>
           <ClientProvider>
-            <Header />
             {children}
           </ClientProvider>
         </main>

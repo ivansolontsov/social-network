@@ -1,0 +1,39 @@
+.overlay {
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    left: 0px;
+    top: 0px;
+    background-color: rgba(0, 0, 0, .5);
+    z-index: 5;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+}
+
+.modal {
+    position: relative;
+    border-radius: $blockRadius;
+    max-width: 768px;
+    width: 100%;
+    min-height: 80vh;
+    background-color: $blockColor;
+    overflow: hidden;
+}
+
+.modalCloseButton {
+    width: 40px !important;
+    height: 40px !important;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: absolute;
+    right: 30px;
+    top: 30px;
+    background-color: $accentColor;
+    border-radius: 100%;
+    margin: 0;
+    padding: 0;
+    text-align: center;
+}

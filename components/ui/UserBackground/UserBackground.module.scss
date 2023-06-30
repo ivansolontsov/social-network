@@ -1,0 +1,27 @@
+.userPageBackground {
+    width: 100%;
+    // border-radius: 0px 0px $blockRadius $blockRadius;
+    height: 200px;
+    overflow: hidden;
+    position: relative;
+    cursor: pointer;
+    z-index: 0;
+}
+
+.userChangeBackgroundButton {
+    position: absolute;
+    right: 15px;
+    top: 15px;
+
+    button {
+        opacity: 0;
+        transition: opacity .3s;
+    }
+}
+
+.userPageBackground:hover+.userChangeBackgroundButton,
+.userChangeBackgroundButton:hover {
+    button {
+        opacity: 1;
+    }
+}

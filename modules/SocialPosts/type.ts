@@ -1,10 +1,11 @@
 
 export interface ISocialPost {
     id: number
-    title: string
     text: string
+    image: string
     postCreatedDate: string
     author: IAuthor
+    likes: []
 }
 
 export interface IAuthor {
