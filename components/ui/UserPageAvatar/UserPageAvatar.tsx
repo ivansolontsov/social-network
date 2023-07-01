@@ -35,7 +35,7 @@ const UserPageAvatar = ({ user, isLoading }: Props) => {
             setAvatarInfo({
                 firstName: user.id === currentUser.id ? currentUser.firstName : user?.firstName,
                 lastName: user.id === currentUser.id ? currentUser.lastName : user?.lastName,
-                url: user.id === currentUser.id ? currentUser.background : user?.avatar
+                url: user.id === currentUser.id ? currentUser.avatar : user?.avatar
             })
         }
     }, [user, isLoading])
