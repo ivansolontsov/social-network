@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import s from './UserPageAvatar.module.scss'
 import { IUser } from '@/modules/User/type'
 import { Avatar, Button, Popover, Skeleton, Upload, UploadProps, message } from 'antd'
@@ -7,7 +7,7 @@ import { useModalStore } from '../Modal/store'
 import { PictureOutlined } from '@ant-design/icons'
 import { getBase64 } from '@/src/helpers/getBase64'
 import { useUsersStore } from '@/modules/User/store'
-import { useMutation, useQueryClient } from '@tanstack/react-query'
+import { useMutation } from '@tanstack/react-query'
 import { updateUserAvatarFetcher } from '@/modules/User/api'
 
 type Props = {
@@ -19,7 +19,6 @@ const UserPageAvatar = ({ user, isLoading }: Props) => {
     const { user: currentUser, setUser } = useUsersStore((store) => store)
     const { setOpen: openModal, setChildren: setModalChildren } = useModalStore((store) => store)
 
-    const queryClient = useQueryClient()
 
     const {
         mutateAsync: updateAvatar,
@@ -28,7 +27,18 @@ const UserPageAvatar = ({ user, isLoading }: Props) => {
     } = useMutation(updateUserAvatarFetcher)
 
 
+    const [avatarInfo, setAvatarInfo] = useState<{ url: string, firstName: string, lastName: string }>()
     const [isImageLoading, setIsImageLoading] = useState<boolean>(false);
+
+    useEffect(() => {
+        if (user) {
+            setAvatarInfo({
+                firstName: user.id === currentUser.id ? currentUser.firstName : user?.firstName,
+                lastName: user.id === currentUser.id ? currentUser.lastName : user?.lastName,
+                url: user.id === currentUser.id ? currentUser.background : user?.avatar
+            })
+        }
+    }, [user, isLoading])
 
     const uploadProps: UploadProps = {
         name: 'file',
@@ -60,9 +70,9 @@ const UserPageAvatar = ({ user, isLoading }: Props) => {
                             const formData = new FormData();
                             formData.append('image', info.file.originFileObj)
                             await updateAvatar(formData);
-                            queryClient.invalidateQueries(['getUser'])
                             getBase64(info.file.originFileObj, (url) => {
                                 setUser({ ...currentUser, avatar: url })
+                                setAvatarInfo({ url: url, firstName: currentUser.firstName, lastName: currentUser.lastName })
                                 message.success(`Аватар обновлен`);
                                 setIsImageLoading(false)
                             })
@@ -100,18 +110,15 @@ const UserPageAvatar = ({ user, isLoading }: Props) => {
 
     const avatar = (
         <>
-            {isLoading || isImageLoading
+            {isLoading || isImageLoading || isAvatarUpdating
                 ? <Skeleton.Avatar active={true} size={100} />
-                : user
+                : avatarInfo?.url
                     ? <PreloaderImage
                         className={s.userPageAvatar}
-                        src={user.id === currentUser.id
-                            ? currentUser.avatar
-                            : user.avatar
-                        }
-                        alt={user ? user.firstName + ' ' + user.lastName : 'Empty'}
+                        src={avatarInfo.url}
+                        alt={avatarInfo.firstName + ' ' + avatarInfo.lastName}
                         onClick={() => {
-                            openImagePreview(user.avatar)
+                            openImagePreview(avatarInfo.url)
                         }}
                         objectFit='cover'
                     />

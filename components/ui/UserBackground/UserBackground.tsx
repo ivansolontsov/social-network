@@ -19,15 +19,24 @@ const UserBackground = ({ id, isLoading, user }: Props) => {
     const currentUser = useUsersStore((store) => store.user)
     const setUser = useUsersStore((store) => store.setUser)
 
-    const queryClient = useQueryClient()
-
     const {
         mutateAsync: updateBackground,
-        isLoading: isAvatarUpdating,
-        isSuccess: isAvatarUpdated
+        isLoading: isBgUpdating,
+        isSuccess: isBgUpdated
     } = useMutation(updateUserBackgroundFetcher)
 
     const [isImageLoading, setIsImageLoading] = useState<boolean>(false);
+    const [bgInfo, setBgInfo] = useState<{ url: string, firstName: string, lastName: string }>()
+
+    useEffect(() => {
+        if (user) {
+            setBgInfo({
+                firstName: user.id === currentUser.id ? currentUser.firstName : user?.firstName,
+                lastName: user.id === currentUser.id ? currentUser.lastName : user?.lastName,
+                url: user.id === currentUser.id ? currentUser.background : user?.background
+            })
+        }
+    }, [user, isLoading])
 
     const uploadProps: UploadProps = {
         name: 'file',
@@ -59,9 +68,9 @@ const UserBackground = ({ id, isLoading, user }: Props) => {
                             const formData = new FormData();
                             formData.append('image', info.file.originFileObj)
                             await updateBackground(formData);
-                            queryClient.invalidateQueries(['getUser'])
                             getBase64(info.file.originFileObj, (url) => {
                                 setUser({ ...currentUser, background: url })
+                                setBgInfo({ url: url, firstName: currentUser.firstName, lastName: currentUser.lastName })
                                 message.success(`Обложка обновлена`);
                                 setIsImageLoading(false)
                             })
@@ -83,12 +92,12 @@ const UserBackground = ({ id, isLoading, user }: Props) => {
     }
     return (
         <>
-            {user?.background
+            {bgInfo?.url
                 ? <PreloaderImage
                     className={s.userPageBackground}
-                    isLoading={isLoading || isImageLoading}
-                    src={currentUser.id === Number(id) ? currentUser.background : user.background}
-                    alt={!isLoading && user ? user.firstName + ' ' + user.lastName : ""}
+                    isLoading={isLoading || isImageLoading || isBgUpdating}
+                    src={bgInfo.url}
+                    alt={bgInfo.firstName + ' ' + bgInfo.lastName}
                     objectFit='cover'
                 />
                 : <div className={s.userPageBackground} />

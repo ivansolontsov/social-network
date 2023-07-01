@@ -1,7 +1,6 @@
 import { Inter, Roboto_Slab } from 'next/font/google'
 import ClientProvider from '@/modules/ClientProvider'
-
-import '../styles/globals.scss'
+import '@/styles/globals.scss';
 
 const inter = Inter({
   subsets: ['latin'],

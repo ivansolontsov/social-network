@@ -6,7 +6,6 @@ import { SocialPostsList } from '@/modules/SocialPosts/SocialPostsList/SocialPos
 import { getPostsByUserIdFetcher } from '@/modules/SocialPosts/api'
 import { getUserByIdFetcher } from '@/modules/User/api'
 import { useUsersStore } from '@/modules/User/store'
-import { IUser } from '@/modules/User/type'
 import s from '@/styles/pages/userPage/userPage.module.scss'
 import { useQuery } from '@tanstack/react-query'
 import { Skeleton } from 'antd'
