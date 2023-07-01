@@ -7,7 +7,7 @@ import { useModalStore } from '../Modal/store'
 import { PictureOutlined } from '@ant-design/icons'
 import { getBase64 } from '@/src/helpers/getBase64'
 import { useUsersStore } from '@/modules/User/store'
-import { useMutation } from '@tanstack/react-query'
+import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { updateUserAvatarFetcher } from '@/modules/User/api'
 
 type Props = {
@@ -18,6 +18,8 @@ type Props = {
 const UserPageAvatar = ({ user, isLoading }: Props) => {
     const { user: currentUser, setUser } = useUsersStore((store) => store)
     const { setOpen: openModal, setChildren: setModalChildren } = useModalStore((store) => store)
+
+    const queryClient = useQueryClient()
 
     const {
         mutateAsync: updateAvatar,
@@ -58,6 +60,7 @@ const UserPageAvatar = ({ user, isLoading }: Props) => {
                             const formData = new FormData();
                             formData.append('image', info.file.originFileObj)
                             await updateAvatar(formData);
+                            queryClient.invalidateQueries(['getUser'])
                             getBase64(info.file.originFileObj, (url) => {
                                 setUser({ ...currentUser, avatar: url })
                                 message.success(`Аватар обновлен`);
@@ -99,10 +102,10 @@ const UserPageAvatar = ({ user, isLoading }: Props) => {
         <>
             {isLoading || isImageLoading
                 ? <Skeleton.Avatar active={true} size={100} />
-                : user?.avatar
+                : user
                     ? <PreloaderImage
                         className={s.userPageAvatar}
-                        src={user.id === currentUser.id && currentUser.avatar
+                        src={user.id === currentUser.id
                             ? currentUser.avatar
                             : user.avatar
                         }

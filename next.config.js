@@ -7,6 +7,10 @@ const nextConfig = {
                 protocol: "https",
                 hostname: "vm687554.vps.masterhost.tech",
             },
+            {
+                protocol: "http",
+                hostname: "localhost",
+            },
         ],
     },
     sassOptions: {

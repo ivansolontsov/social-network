@@ -19,6 +19,8 @@ const UserBackground = ({ id, isLoading, user }: Props) => {
     const currentUser = useUsersStore((store) => store.user)
     const setUser = useUsersStore((store) => store.setUser)
 
+    const queryClient = useQueryClient()
+
     const {
         mutateAsync: updateBackground,
         isLoading: isAvatarUpdating,
@@ -57,6 +59,7 @@ const UserBackground = ({ id, isLoading, user }: Props) => {
                             const formData = new FormData();
                             formData.append('image', info.file.originFileObj)
                             await updateBackground(formData);
+                            queryClient.invalidateQueries(['getUser'])
                             getBase64(info.file.originFileObj, (url) => {
                                 setUser({ ...currentUser, background: url })
                                 message.success(`Обложка обновлена`);
