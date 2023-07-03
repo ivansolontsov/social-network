@@ -3,7 +3,7 @@ import s from './UserBackground.module.scss'
 import { IUser } from '@/modules/User/type'
 import PreloaderImage from '@/components/PreloaderImage/PreloaderImage';
 import { Button, Upload, UploadProps, message } from 'antd';
-import { PictureFilled } from '@ant-design/icons';
+import { EditOutlined, PictureFilled } from '@ant-design/icons';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { updateUserBackgroundFetcher } from '@/modules/User/api';
 import { useUsersStore } from '@/modules/User/store';
@@ -105,7 +105,8 @@ const UserBackground = ({ id, isLoading, user }: Props) => {
             {Number(id) == currentUser.id && (
                 <Upload {...uploadProps} className={s.userChangeBackgroundButton}>
                     <Button
-                        icon={<PictureFilled />}
+                        type='ghost'
+                        icon={<EditOutlined />}
                     >
                         Изменить обложку
                     </Button>

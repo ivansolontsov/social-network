@@ -31,3 +31,10 @@ $blockPadding: 15px;
     padding: $blockPadding;
     border-radius: $halfBigBlockRadius;
 }
+
+@mixin overImageButton {
+    color: $inversedTextColor;
+    background-color: rgba(0, 0, 0, .5);
+    border-radius: $blockRadius;
+    font-weight: bold;
+}

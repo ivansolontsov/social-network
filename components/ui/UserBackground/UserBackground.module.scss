@@ -14,6 +14,7 @@
     top: 15px;
 
     button {
+        @include overImageButton;
         opacity: 0;
         transition: opacity .3s;
     }

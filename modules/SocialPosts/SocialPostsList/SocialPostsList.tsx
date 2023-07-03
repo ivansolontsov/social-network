@@ -17,7 +17,10 @@ export const SocialPostsList: FC<Props> = ({ isLoading, posts }) => {
     return (
         <div className={s.socialPostsList}>
             {isLoading
-                ? <Skeleton active={true} avatar={true} />
+                ? <Skeleton
+                    active={true}
+                    avatar={true}
+                />
                 : posts && (
                     <>
                         {posts.map((post, index) => (
