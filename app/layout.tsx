@@ -25,7 +25,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html lang="ru" className={inter.variable + ' ' + roboto.variable} >
       <body>
-        <main>
+        <main className='main'>
           <ClientProvider>
             {children}
           </ClientProvider>

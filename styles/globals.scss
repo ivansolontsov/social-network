@@ -20,6 +20,10 @@ body {
     font-family: var(--inter-font);
 }
 
+.main {
+    min-height: 100vh;
+}
+
 .container {
     @include container;
 }

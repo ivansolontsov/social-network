@@ -1,9 +1,53 @@
-.signIn{
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-    max-width: 320px;
-    margin: auto;
+.signIn {
+    position: absolute;
+    width: 100%;
     height: 100vh;
-    justify-content: center;
+    display: flex;
+    align-items: center;
+    margin: auto;
+    left: 0px;
+    top: 0px;
+    background-color: rgba(0, 0, 0, 0.3);
+    backdrop-filter: blur(10px);
+    z-index: 5;
+
+    .signInContainer {
+        position: relative;
+        max-width: 320px;
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        margin: auto;
+        justify-content: center;
+        background-color: $blockColor;
+        padding: 30px;
+        border-radius: $blockRadius;
+
+        @media screen and (max-width:525px) {
+            padding: $blockPadding;
+        }
+
+        .formItemLabel {
+            color: $accentColor;
+        }
+
+        h1 {
+            font-size: 18px;
+            text-align: center;
+        }
+
+        .signInButton {
+            margin-top: 15px;
+        }
+
+        .signInModalCloseButton {
+            color: black;
+            position: absolute;
+            right: -15px;
+            top: -15px;
+            background-color: $blockColor;
+            box-shadow: $boxShadow;
+        }
+    }
 }
