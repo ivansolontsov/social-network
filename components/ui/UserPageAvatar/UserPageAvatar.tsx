@@ -3,12 +3,12 @@ import s from './UserPageAvatar.module.scss'
 import { IUser } from '@/modules/User/type'
 import { Avatar, Button, Popover, Skeleton, Upload, UploadProps, message } from 'antd'
 import PreloaderImage from '@/components/PreloaderImage/PreloaderImage'
-import { useModalStore } from '../Modal/store'
 import { PictureOutlined } from '@ant-design/icons'
 import { getBase64 } from '@/src/helpers/getBase64'
 import { useUsersStore } from '@/modules/User/store'
 import { useMutation } from '@tanstack/react-query'
 import { updateUserAvatarFetcher } from '@/modules/User/api'
+import Modal from '../Modal/Modal'
 
 type Props = {
     isLoading: boolean
@@ -17,7 +17,6 @@ type Props = {
 
 const UserPageAvatar = ({ user, isLoading }: Props) => {
     const { user: currentUser, setUser } = useUsersStore((store) => store)
-    const { setOpen: openModal, setChildren: setModalChildren } = useModalStore((store) => store)
 
 
     const {
@@ -29,6 +28,7 @@ const UserPageAvatar = ({ user, isLoading }: Props) => {
 
     const [avatarInfo, setAvatarInfo] = useState<{ url: string, firstName: string, lastName: string }>()
     const [isImageLoading, setIsImageLoading] = useState<boolean>(false);
+    const [openPreview, setOpenPreview] = useState<boolean>(false);
 
     useEffect(() => {
         if (user) {
@@ -95,9 +95,7 @@ const UserPageAvatar = ({ user, isLoading }: Props) => {
 
     // functions
     const openImagePreview = (image: string) => {
-        const modalContent = (<PreloaderImage src={image} alt='Фотография' objectFit='cover' />)
-        setModalChildren(modalContent)
-        openModal(true)
+        setOpenPreview(true)
     }
 
     const avatarDropdownMenu = (
@@ -135,6 +133,11 @@ const UserPageAvatar = ({ user, isLoading }: Props) => {
                 </Popover>
                 : avatar
             }
+            <Modal
+                open={openPreview}
+                setOpen={setOpenPreview}>
+                {avatarInfo && <PreloaderImage src={avatarInfo?.url} alt='Фотография' objectFit='cover' />}
+            </Modal>
         </>
     )
 }

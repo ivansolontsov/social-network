@@ -39,3 +39,33 @@ export const createPostFetcher = async (formData: FormData) => {
         body: formData
     })
 }
+
+export const likePostFetcher = async (postId: number) => {
+    const accessToken = getCookie('accessToken');
+    const res = await fetch(`${process.env.APP_BASE_URL}/likes/likePost`, {
+        method: "POST",
+        headers: {
+            "Authorization": `Bearer ${accessToken}`,
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({ postId: postId })
+    })
+    if (!res.ok) {
+        throw new Error();
+    }
+}
+
+export const unlikePostFetcher = async (postId: number) => {
+    const accessToken = getCookie('accessToken');
+    const res = await fetch(`${process.env.APP_BASE_URL}/likes/unlikePost`, {
+        method: "DELETE",
+        headers: {
+            "Authorization": `Bearer ${accessToken}`,
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({ postId: postId })
+    })
+    if (!res.ok) {
+        throw new Error();
+    }
+}

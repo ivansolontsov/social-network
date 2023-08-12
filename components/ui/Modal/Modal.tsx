@@ -2,25 +2,24 @@
 
 import React, { useRef } from 'react'
 import s from './Modal.module.scss'
-import { useModalStore } from './store'
 import { Button } from 'antd'
 import { CloseOutlined } from '@ant-design/icons'
 import { useClickAway } from 'react-use'
+import { createPortal } from 'react-dom'
 
 type Props = {
+    open: boolean,
+    setOpen: React.Dispatch<React.SetStateAction<boolean>>
+    children: React.ReactNode
 }
 
-const Modal = ({ }: Props) => {
-    const isOpen = useModalStore((store) => store.isOpen)
-    const children = useModalStore((store) => store.children)
-    const setOpen = useModalStore((store) => store.setOpen)
-
+const Modal = ({ open, setOpen, children }: Props) => {
     const ref = useRef(null);
     useClickAway(ref, () => { setOpen(false) })
 
-    return (
+    return createPortal((
         <>
-            {isOpen &&
+            {open &&
                 <div className={s.overlay}>
                     <Button
                         type='ghost'
@@ -37,7 +36,7 @@ const Modal = ({ }: Props) => {
                 </div>
             }
         </>
-    )
+    ), document.getElementsByTagName('main')[0])
 }
 
 export default Modal

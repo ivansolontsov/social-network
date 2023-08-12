@@ -19,7 +19,6 @@ export default async function MainLayout({ authorized, unauthorized }: { authori
                         <div className="content">
                             {authorized}
                         </div>
-                        <Modal />
                     </div>
                 </>
             )

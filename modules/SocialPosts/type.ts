@@ -5,7 +5,13 @@ export interface ISocialPost {
     image: string
     postCreatedDate: string
     author: IAuthor
-    likes: []
+    likes: number
+    isLiked: boolean
+}
+
+export interface ILikes {
+    postId: number
+    userId: number
 }
 
 export interface IAuthor {
