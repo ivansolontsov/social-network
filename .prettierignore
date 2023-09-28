@@ -1,0 +1,5 @@
+.next/
+**/*.yml
+Dockerfile
+**/*.d.ts
+**/*.md

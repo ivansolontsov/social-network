@@ -1,45 +1,35 @@
-'use client'
+'use client';
 
-import { testAuthFetcher } from '@/modules/Auth/Api'
-import { useQuery } from '@tanstack/react-query'
-import { getCookie, getCookies } from 'cookies-next'
-import React from 'react'
-import { useUsersStore } from '../../store'
-import { getUserFetcher } from '../../api'
+import {useQuery} from '@tanstack/react-query';
+import {getCookie} from 'cookies-next';
+import React, {useEffect} from 'react';
+import {useUsersStore} from '../../store';
+import {getUserFetcher} from '../../api';
 
 type Props = {
-    children: React.ReactNode
-}
+  children: React.ReactNode;
+};
 
-const UserAuthWatcher = ({ children }: Props) => {
-    const setAuth = useUsersStore((store) => store.setAuth)
-    const setUser = useUsersStore((store) => store.setUser)
+const UserAuthWatcher = ({children}: Props) => {
+  const {setAuth, setUser} = useUsersStore((store) => store);
 
-    useQuery(['testAuth'], () => testAuthFetcher(), {
-        enabled: getCookie('accessToken') ? true : false,
-        onSuccess: () => {
-            setAuth(true)
-        },
-        onError: () => {
-            setAuth(false)
-        }
-    })
+  const {data, isSuccess, isError} = useQuery(
+    ['getUser'],
+    getUserFetcher,
+    {
+      enabled: !!getCookie('accessToken')
+    }
+  );
 
-    useQuery(['getUser'], () => getUserFetcher(), {
-        enabled: getCookie('accessToken') ? true : false,
-        onSuccess: (data) => {
-            setUser(data)
-        },
-        onError: () => {
-            setAuth(false)
-        }
-    })
+  useEffect(() => {
+    if (isSuccess && data) {
+      setUser(data);
+      setAuth(true);
+    }
+    if (isError) setAuth(false);
+  }, [data, isSuccess]);
 
-    return (
-        <>
-            {children}
-        </>
-    )
-}
+  return <>{children}</>;
+};
 
-export default UserAuthWatcher
+export default UserAuthWatcher;

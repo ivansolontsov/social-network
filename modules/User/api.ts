@@ -1,60 +1,30 @@
-import { getCookie } from "cookies-next"
-import { IUser } from "./type";
+import {IUser} from './type';
+import {$api} from '@/src/axios/axios';
 
 export const getUserFetcher = async (): Promise<IUser> => {
-    const accessToken = getCookie('accessToken');
-    const res = await fetch(`${process.env.APP_BASE_URL}/users/getUser`, {
-        method: "GET",
-        headers: {
-            "Authorization": `Bearer ${accessToken}`
-        }
-    })
-    if (!res.ok) {
-        throw new Error('Error while getting user data')
-    }
-    return res.json();
-}
+  const {data} = await $api.get('/users/getUser');
+  return data;
+};
 
 export const getUserByIdFetcher = async (id: string): Promise<IUser> => {
-    const accessToken = getCookie('accessToken');
-    const res = await fetch(`${process.env.APP_BASE_URL}/users/getUserById/${id}`, {
-        method: "GET",
-        headers: {
-            "Authorization": `Bearer ${accessToken}`
-        }
-    })
-    if (!res.ok) {
-        throw new Error('Error while getting user data')
-    }
-    return res.json();
-}
+  const {data} = await $api.get(`/users/getUserById/${id}`);
+  return data;
+};
 
 export const updateUserBackgroundFetcher = async (formData: FormData) => {
-    const accessToken = getCookie('accessToken');
-    const res = await fetch(`${process.env.APP_BASE_URL}/users/updateBackground`, {
-        method: "POST",
-        headers: {
-            'Authorization': `Bearer ${accessToken}`
-        },
-        body: formData
-    })
-    if (!res.ok) {
-        throw new Error('Error while updating background')
+  const {data} = await $api.post('/users/updateBackground', formData, {
+    headers: {
+      'Content-Type': 'multipart/form-data'
     }
-    return res;
-}
+  });
+  return data;
+};
 
 export const updateUserAvatarFetcher = async (formData: FormData) => {
-    const accessToken = getCookie('accessToken');
-    const res = await fetch(`${process.env.APP_BASE_URL}/users/updateAvatar`, {
-        method: "POST",
-        headers: {
-            'Authorization': `Bearer ${accessToken}`
-        },
-        body: formData
-    })
-    if (!res.ok) {
-        throw new Error('Error while updating avatar')
+  const {data} = await $api.post('/users/updateAvatar', formData, {
+    headers: {
+      'Content-Type': 'multipart/form-data'
     }
-    return res;
-}
+  });
+  return data;
+};
