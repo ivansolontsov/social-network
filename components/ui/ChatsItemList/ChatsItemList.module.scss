@@ -1,0 +1,57 @@
+.chatListItem {
+  display: flex;
+  width: 100%;
+  height: fit-content;
+  align-items: flex-start;
+  gap: 10px;
+  padding: 15px;
+  border-bottom: 1px solid rgb(220 220 220 / 42%);
+  background-color: transparent;
+  transition: background-color 0.3s ease;
+
+  &:hover {
+    background-color: $accentColor;
+    cursor: pointer;
+  }
+
+  &:last-child {
+    border-bottom: none;
+  }
+}
+.chatListInfo {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+
+  h3 {
+    font-size: 14px;
+    letter-spacing: 0;
+    font-weight: bold;
+    font-weight: normal;
+    margin: 0;
+    padding: 0;
+  }
+
+  span {
+    font-size: 10px;
+    opacity: 0.3;
+  }
+}
+
+.chatListAvatar {
+  position: relative;
+  min-width: 40px;
+  min-height: 40px;
+  max-width: 40px;
+  max-height: 40px;
+  border-radius: 100%;
+  overflow: hidden;
+
+  img {
+    object-fit: cover;
+  }
+}
+
+.active {
+  background-color: $accentColor;
+}

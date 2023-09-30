@@ -1,4 +1,5 @@
 import MyMessages from '@/modules/Chat/MyMessages/MyMessages';
+import MyChats from '@/modules/Chat/MyChats/MyChats';
 
 export default function Page({
   params
@@ -7,5 +8,5 @@ export default function Page({
     userId: string;
   };
 }) {
-  return <MyMessages />;
+  return <MyChats />;
 }

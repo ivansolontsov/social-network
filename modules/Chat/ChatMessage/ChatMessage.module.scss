@@ -1,0 +1,62 @@
+.chatMessage {
+  margin: 20px 0px;
+  max-width: 70%;
+  display: flex;
+  gap: 10px;
+  align-items: flex-end;
+}
+
+.chatMessageBubble {
+  display: flex;
+  padding: 15px;
+  position: relative;
+  .messageCorner {
+    position: absolute;
+  }
+}
+
+.enemyChatMessage {
+  margin: 20px auto 20px 0px;
+
+  .chatMessageBubble {
+    background-color: $backgroundColor;
+    border-radius: 20px 20px 20px 0px;
+
+    .messageCorner {
+      left: -8px;
+      bottom: 0;
+      transform: rotate(180deg);
+      color: $backgroundColor;
+    }
+  }
+}
+
+.userChatMessage {
+  color: $inversedTextColor;
+  flex-direction: row-reverse;
+
+  .chatMessageBubble {
+    background-color: #2b5885;
+    border-radius: 20px 20px 0px 20px;
+    .messageCorner {
+      right: -8px;
+      bottom: 0;
+      transform: scale(1, -1);
+      color: #2b5885;
+    }
+  }
+}
+
+.userChatAvatar {
+  position: relative;
+  min-width: 40px;
+  min-height: 40px;
+  max-width: 40px;
+  max-height: 40px;
+  border-radius: 100px;
+  overflow: hidden;
+
+  img {
+    object-fit: cover !important;
+  }
+}
