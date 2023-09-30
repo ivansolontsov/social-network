@@ -1,5 +1,5 @@
 import s from './ChatMessage.module.scss';
-import {type FC, memo} from 'react';
+import {DetailedHTMLProps, type FC, LiHTMLAttributes, memo} from 'react';
 import clsx from 'clsx';
 import PreloaderImage from '@/components/PreloaderImage/PreloaderImage';
 import {BubbleTipIcon} from '@/components/ui/icons/BubbleTipIcon';
@@ -15,14 +15,18 @@ interface ChatMessageProps {
   userId: number;
 }
 
-const ChatMessage: FC<ChatMessageProps> = ({
+const ChatMessage: FC<
+  ChatMessageProps &
+    DetailedHTMLProps<LiHTMLAttributes<HTMLLIElement>, HTMLLIElement>
+> = ({
   isEnemyMessage = false,
   message,
   avatar,
   userId,
   name,
   time,
-  isOnline
+  isOnline,
+  ...attributes
 }) => {
   return (
     <li
@@ -30,6 +34,7 @@ const ChatMessage: FC<ChatMessageProps> = ({
         [s.enemyChatMessage]: isEnemyMessage,
         [s.userChatMessage]: !isEnemyMessage
       })}
+      {...attributes}
     >
       <PreloaderImage
         className={s.userChatAvatar}

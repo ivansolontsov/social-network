@@ -9,6 +9,7 @@ import {useParams, useRouter} from 'next/navigation';
 import * as querystring from 'querystring';
 import {CHATS_PAGE} from '@/src/consts/routes';
 import MyMessages from '@/modules/Chat/MyMessages/MyMessages';
+import dayjs from 'dayjs';
 
 interface MyChatsProps {
   children?: React.ReactNode;
@@ -28,7 +29,9 @@ const MyChats: FC<MyChatsProps> = ({children}) => {
               active={Number(params.chatId) === e.chat.id}
               key={e.enemyUser.id}
               name={e.enemyUser.name}
-              date={e.chat.lastMessageDate}
+              date={dayjs(e.chat.lastMessageDate)
+                .locale('ru')
+                .format('DD MMMM')}
               avatar={e.enemyUser.avatar}
               onClick={() => router.push(CHATS_PAGE + '/' + e.chat.id)}
             />

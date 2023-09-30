@@ -1,7 +1,16 @@
 'use client';
 
 import s from './MyMessages.module.scss';
-import {type FC, memo, useCallback, useEffect, useState} from 'react';
+import {
+  type FC,
+  memo,
+  RefObject,
+  useCallback,
+  useEffect,
+  useLayoutEffect,
+  useRef,
+  useState
+} from 'react';
 import {useParams} from 'next/navigation';
 import {Button, Form, Input} from 'antd';
 import {getCookie} from 'cookies-next';
@@ -18,8 +27,15 @@ import {IMessage} from '@/modules/Chat/type';
 interface MyMessagesProps {}
 
 const MyMessages: FC<MyMessagesProps> = ({}) => {
+  const [messages, setMessages] = useState<IMessage[]>([]);
+  const [socket, setSocket] = useState<Socket>({} as Socket);
+  const [chatId, setChatId] = useState<number>();
+  const [inputValue, setInputValue] = useState('');
+  const chatContainer = useRef<HTMLDivElement>(null);
   const params = useParams();
+
   const {user} = useUsersStore((store) => store);
+
   const {
     data: messagesList,
     isLoading: isMessagesLoading,
@@ -39,11 +55,6 @@ const MyMessages: FC<MyMessagesProps> = ({}) => {
       setMessages(messagesList);
     }
   }, [isMessagedSuccesfullyLoaded]);
-
-  const [messages, setMessages] = useState<IMessage[]>([]);
-  const [socket, setSocket] = useState<Socket>({} as Socket);
-  const [chatId, setChatId] = useState<number>();
-  const [inputValue, setInputValue] = useState('');
 
   // useEffect(() => {
   //   const newSocket: Socket = io('ws://localhost:9000/chats', {
@@ -83,16 +94,18 @@ const MyMessages: FC<MyMessagesProps> = ({}) => {
   //   return () => newSocket.close();
   // }, []);
 
-  useEffect(() => {
-    console.log(messages);
-  }, [messages]);
+  // const sendMessage = useCallback(() => {
+  //   if (socket) {
+  //     socket.emit('sendMessage', {chatId: chatId, message: inputValue});
+  //     setInputValue('');
+  //   }
+  // }, [chatId, socket, inputValue]);
 
-  const sendMessage = useCallback(() => {
-    if (socket) {
-      socket.emit('sendMessage', {chatId: chatId, message: inputValue});
-      setInputValue('');
+  useEffect(() => {
+    if (chatContainer.current) {
+      chatContainer.current.scrollTop = chatContainer.current.scrollHeight;
     }
-  }, [chatId, socket, inputValue]);
+  }, [messages]);
 
   return (
     <div className={s.myMessages}>
@@ -102,20 +115,22 @@ const MyMessages: FC<MyMessagesProps> = ({}) => {
             Чат с пользователем {params.userId}
           </div>
           <div className={s.chat}>
-            <ul className={s.chatMessages}>
-              {!isMessagesLoading &&
-                messages.map((e, i) => (
-                  <ChatMessage
-                    key={e.id}
-                    message={e.message}
-                    isEnemyMessage={user.id !== e.userId}
-                    avatar={e.avatar}
-                    name={e.name}
-                    userId={e.userId}
-                    time={e.createdAt}
-                  />
-                ))}
-            </ul>
+            <div className={s.chatMessagesContainer} ref={chatContainer}>
+              <ul className={s.chatMessages}>
+                {!isMessagesLoading &&
+                  messages.map((e, i) => (
+                    <ChatMessage
+                      key={e.id}
+                      message={e.message}
+                      isEnemyMessage={user.id !== e.userId}
+                      avatar={e.avatar}
+                      name={e.name}
+                      userId={e.userId}
+                      time={e.createdAt}
+                    />
+                  ))}
+              </ul>
+            </div>
           </div>
           <Form className={s.sendButton}>
             <Input
@@ -124,6 +139,9 @@ const MyMessages: FC<MyMessagesProps> = ({}) => {
               onChange={(e) => setInputValue(e.target.value)}
               size={'large'}
             />
+            <Button type={'primary'} size={'large'}>
+              Отправить
+            </Button>
           </Form>
         </>
       )}
