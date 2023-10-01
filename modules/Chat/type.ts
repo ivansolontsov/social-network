@@ -19,3 +19,13 @@ export type IGetUserChatsResponse = {
 
 export type IGetMessagesByChatIdResponse = IMessage[];
 export type IGetMessagesByChatIdRequest = {chatId: number};
+
+export type ICreateChatWithUserRequest = {userId: number};
+export type ICreateChatWithUserResponse = {chatId: number};
+
+export interface webSocketChatResponses {
+  joinChatByIdResponse: any;
+  roomJoined: any;
+  newMessage: any;
+  sendMessage: any;
+}

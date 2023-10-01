@@ -17,6 +17,7 @@ import {useUsersStore} from '@/modules/User/store';
 import {useMutation} from '@tanstack/react-query';
 import {updateUserAvatarFetcher} from '@/modules/User/api';
 import Modal from '../Modal/Modal';
+import CreateChatButton from '@/modules/Chat/CreateChatButton/CreateChatButton';
 
 type Props = {
   isLoading: boolean;
@@ -118,11 +119,18 @@ const UserPageAvatar = ({user, isLoading}: Props) => {
   };
 
   const avatarDropdownMenu = (
-    <Upload {...uploadProps}>
-      <Button ghost icon={<PictureOutlined />}>
-        Изменить аватар
-      </Button>
-    </Upload>
+    <div className={s.avatarDropdownMenuList}>
+      {currentUser.id === user?.id && (
+        <Upload {...uploadProps}>
+          <Button ghost type={'link'} icon={<PictureOutlined />}>
+            Изменить аватар
+          </Button>
+        </Upload>
+      )}
+      {currentUser.id !== user?.id && (
+        <CreateChatButton userId={Number(user?.id)} />
+      )}
+    </div>
   );
 
   const avatar = (
@@ -147,17 +155,13 @@ const UserPageAvatar = ({user, isLoading}: Props) => {
 
   return (
     <>
-      {user && user.id === currentUser.id ? (
-        <Popover
-          content={avatarDropdownMenu}
-          trigger='hover'
-          placement='bottomLeft'
-        >
-          {avatar}
-        </Popover>
-      ) : (
-        avatar
-      )}
+      <Popover
+        content={avatarDropdownMenu}
+        trigger='hover'
+        placement='bottomLeft'
+      >
+        {avatar}
+      </Popover>
       <Modal open={openPreview} setOpen={setOpenPreview}>
         {avatarInfo && (
           <PreloaderImage

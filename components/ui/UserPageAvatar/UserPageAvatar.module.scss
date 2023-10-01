@@ -13,3 +13,9 @@
         opacity: .9;
     }
 }
+
+.avatarDropdownMenuList {
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+}

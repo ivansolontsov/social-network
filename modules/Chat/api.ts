@@ -1,5 +1,7 @@
 import {$api} from '@/src/axios/axios';
 import {
+  ICreateChatWithUserRequest,
+  ICreateChatWithUserResponse,
   IGetMessagesByChatIdRequest,
   IGetMessagesByChatIdResponse,
   IGetUserChatsResponse
@@ -18,5 +20,14 @@ export const getMessagesByIdFetcher = async (
   const {data} = await $api.get(
     `/chat/getMessagesByChatId/${request.chatId}`
   );
+  return data;
+};
+
+export const createChatWithUserFetcher = async (
+  request: ICreateChatWithUserRequest
+): Promise<ICreateChatWithUserResponse> => {
+  const {data} = await $api.post(`/chat/createChatWithUser/`, {
+    ...request
+  });
   return data;
 };

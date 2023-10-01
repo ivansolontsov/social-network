@@ -4,102 +4,76 @@ import s from './MyMessages.module.scss';
 import {
   type FC,
   memo,
-  RefObject,
   useCallback,
   useEffect,
-  useLayoutEffect,
   useRef,
   useState
 } from 'react';
-import {useParams} from 'next/navigation';
 import {Button, Form, Input} from 'antd';
-import {getCookie} from 'cookies-next';
 import {io, Socket} from 'socket.io-client';
-import {IUser} from '@/modules/User/type';
-import clsx from 'clsx';
 import {useUsersStore} from '@/modules/User/store';
-import PreloaderImage from '@/components/PreloaderImage/PreloaderImage';
 import ChatMessage from '@/modules/Chat/ChatMessage/ChatMessage';
 import {useQuery} from '@tanstack/react-query';
 import {getMessagesByIdFetcher} from '@/modules/Chat/api';
 import {IMessage} from '@/modules/Chat/type';
+import useChat from '@/modules/Chat/hook/useChat';
+import {IUser} from '@/modules/User/type';
 
-interface MyMessagesProps {}
+interface MyMessagesProps {
+  chatId?: string;
+}
 
-const MyMessages: FC<MyMessagesProps> = ({}) => {
+const MyMessages: FC<MyMessagesProps> = ({chatId}) => {
+  const [enemyUser, setEnemyUser] = useState<IUser>();
   const [messages, setMessages] = useState<IMessage[]>([]);
-  const [socket, setSocket] = useState<Socket>({} as Socket);
-  const [chatId, setChatId] = useState<number>();
   const [inputValue, setInputValue] = useState('');
   const chatContainer = useRef<HTMLDivElement>(null);
-  const params = useParams();
 
+  const {socket} = useChat();
   const {user} = useUsersStore((store) => store);
 
   const {
     data: messagesList,
     isLoading: isMessagesLoading,
-    isSuccess: isMessagedSuccesfullyLoaded
+    isSuccess: isMessagedSuccessfullyLoaded
   } = useQuery(
-    [params.chatId + 'chat'],
-    () => getMessagesByIdFetcher({chatId: Number(params.chatId)}),
+    [chatId + 'chat'],
+    () => getMessagesByIdFetcher({chatId: Number(chatId)}),
     {
       refetchOnWindowFocus: false,
       refetchOnMount: false,
-      refetchOnReconnect: false
+      refetchOnReconnect: false,
+      enabled: chatId ? true : false
     }
   );
 
   useEffect(() => {
-    if (messagesList) {
+    if (messagesList && chatId) {
       setMessages(messagesList);
     }
-  }, [isMessagedSuccesfullyLoaded]);
+  }, [isMessagedSuccessfullyLoaded]);
 
-  // useEffect(() => {
-  //   const newSocket: Socket = io('ws://localhost:9000/chats', {
-  //     transportOptions: {
-  //       polling: {
-  //         extraHeaders: {
-  //           Authorization: `Bearer ${getCookie('accessToken')}`
-  //         }
-  //       }
-  //     }
-  //   });
-  //
-  //   setSocket(newSocket);
-  //   newSocket.emit('joinChatById', {chatId: params.chatId});
-  //   newSocket.on(
-  //     'roomJoined',
-  //     (data: {chatId: number; members: IUser[]}) => {
-  //       setChatId(data.chatId);
-  //       console.log(data);
-  //     }
-  //   );
-  //
-  //   newSocket.on(
-  //     'newMessage',
-  //     (data: {chatId: number; ownerId: number; message: string}) => {
-  //       setMessages((prev) => [
-  //         ...prev,
-  //         {
-  //           chatId: data.chatId,
-  //           ownerId: data.ownerId,
-  //           message: data.message
-  //         }
-  //       ]);
-  //     }
-  //   );
-  //
-  //   return () => newSocket.close();
-  // }, []);
+  useEffect(() => {
+    if (socket) {
+      socket.emit('joinChatById', {chatId: chatId});
+      socket.on(
+        'roomJoined',
+        (data: {chatId: number; members: IUser[]}) => {
+          setEnemyUser(data.members.shift());
+        }
+      );
+      socket.on('newMessage', (data: IMessage) => {
+        setMessages((prev) => [...prev, data]);
+      });
+    }
+  }, [socket]);
 
-  // const sendMessage = useCallback(() => {
-  //   if (socket) {
-  //     socket.emit('sendMessage', {chatId: chatId, message: inputValue});
-  //     setInputValue('');
-  //   }
-  // }, [chatId, socket, inputValue]);
+  const sendMessage = useCallback(() => {
+    if (socket) {
+      socket.emit('sendMessage', {chatId: chatId, message: inputValue});
+      setInputValue('');
+    }
+  }, [chatId, socket, inputValue]);
 
   useEffect(() => {
     if (chatContainer.current) {
@@ -109,11 +83,9 @@ const MyMessages: FC<MyMessagesProps> = ({}) => {
 
   return (
     <div className={s.myMessages}>
-      {params.chatId && (
+      {chatId && (
         <>
-          <div className={s.chatPanel}>
-            Чат с пользователем {params.userId}
-          </div>
+          <div className={s.chatPanel}>Чат с пользователем</div>
           <div className={s.chat}>
             <div className={s.chatMessagesContainer} ref={chatContainer}>
               <ul className={s.chatMessages}>
@@ -132,7 +104,7 @@ const MyMessages: FC<MyMessagesProps> = ({}) => {
               </ul>
             </div>
           </div>
-          <Form className={s.sendButton}>
+          <Form className={s.sendButton} onFinish={sendMessage}>
             <Input
               placeholder={'Напишите сообщение и нажмите Enter'}
               value={inputValue}

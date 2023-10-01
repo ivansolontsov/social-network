@@ -40,7 +40,7 @@ export const testAuthFetcher = async (
 ): Promise<boolean> => {
   const accessToken = getCookie('accessToken');
   const response = await fetch(
-    `${process.env.APP_BASE_URL}/identity/TestAuth`,
+    `http://${process.env.APP_BASE_URL}/identity/TestAuth`,
     {
       method: 'GET',
       headers: {
