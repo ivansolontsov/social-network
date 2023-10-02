@@ -23,7 +23,7 @@ const CreatePost = (props: Props) => {
   const queryClient = useQueryClient();
 
   const userAvatar = useUsersStore((store) => store.user.avatar);
-  const userId = useUsersStore((sstore) => store.user.id);
+  const userId = useUsersStore((store) => store.user.id);
 
   const [isImageLoading, setIsImageLoading] = useState<boolean>(false);
 
