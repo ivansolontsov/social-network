@@ -1,15 +1,11 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   images: {
-    domains: ['vm687554.vps.masterhost.tech, localhost'],
+    domains: ['socialnetwork.gearboost.eu, localhost'],
     remotePatterns: [
       {
-        protocol: 'https',
-        hostname: 'vm687554.vps.masterhost.tech'
-      },
-      {
         protocol: 'http',
-        hostname: 'localhost'
+        hostname: 'socialnetwork.gearboost.eu'
       }
     ]
   },
