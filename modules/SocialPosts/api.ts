@@ -15,7 +15,11 @@ export const getPostsByUserIdFetcher = async (
 };
 
 export const createPostFetcher = async (formData: FormData) => {
-  const {data} = await $api.post(`/post/createPost`, {formData});
+  const {data} = await $api.post(`/post/createPost`, formData, {
+    headers: {
+      'Content-Type': 'multipart/form-data'
+    }
+  });
   return data;
 };
 
