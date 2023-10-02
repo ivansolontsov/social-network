@@ -23,6 +23,7 @@ const CreatePost = (props: Props) => {
   const queryClient = useQueryClient();
 
   const userAvatar = useUsersStore((store) => store.user.avatar);
+  const userId = useUsersStore((sstore) => store.user.id);
 
   const [isImageLoading, setIsImageLoading] = useState<boolean>(false);
 
@@ -85,7 +86,7 @@ const CreatePost = (props: Props) => {
         formData.append('image', formValues.image.originFileObj);
       }
       await createPost(formData);
-      queryClient.invalidateQueries(['getPostsByUserId']);
+      await queryClient.invalidateQueries([userId + 'posts']);
       form.resetFields();
     } catch (e) {
       console.log(e);
