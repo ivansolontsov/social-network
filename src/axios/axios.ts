@@ -2,7 +2,7 @@ import process from 'process';
 import {getCookie} from 'cookies-next';
 import axios from 'axios';
 export const $api = axios.create({
-  baseURL: `${process.env.APP_PROTOCOL}//${process.env.APP_BASE_URL}/`,
+  baseURL: `${process.env.APP_PROTOCOL}://${process.env.APP_BASE_URL}/`,
   headers: {
     'Content-type': 'application/json; charset=UTF-8'
   }
