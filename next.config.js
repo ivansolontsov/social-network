@@ -4,7 +4,7 @@ const nextConfig = {
     domains: ['socialnetwork.gearboost.eu, localhost'],
     remotePatterns: [
       {
-        protocol: 'http',
+        protocol: 'https',
         hostname: 'socialnetwork.gearboost.eu'
       }
     ]
