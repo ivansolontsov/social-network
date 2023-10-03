@@ -5,7 +5,7 @@ import {getCookie} from 'cookies-next';
 export default function useChat() {
   const [socket, setSocket] = useState<Socket>();
   useEffect(() => {
-    const newSocket = io(`ws://${process.env.APP_BASE_URL}/chats`, {
+    const newSocket = io(`wss://${process.env.APP_BASE_URL}/chats`, {
       transportOptions: {
         polling: {
           extraHeaders: {
