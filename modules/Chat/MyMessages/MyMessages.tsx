@@ -100,7 +100,7 @@ const MyMessages: FC<MyMessagesProps> = ({chatId}) => {
       socket.on(
         'roomJoined',
         (data: {chatId: number; members: IUser[]}) => {
-          setEnemyUser(data.members.shift());
+          setEnemyUser(data.members.find((e) => e.id !== user.id));
           message.success('Успешно законнектились к чату');
         }
       );
