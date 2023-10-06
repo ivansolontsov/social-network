@@ -47,3 +47,30 @@ $blockPadding: 15px;
   border-radius: $blockRadius;
   font-weight: bold;
 }
+
+@keyframes bg-anim {
+  0% {
+    background-position: 0 0;
+  }
+  100% {
+    background-position: 1000px 0;
+  }
+}
+
+@mixin skeleton {
+  background: linear-gradient(
+    100deg,
+    #f2f2f2,
+    rgb(219, 219, 219),
+    #f2f2f2
+  );
+  pointer-events: none;
+  background-size: 100% 100%;
+  border: 1px solid transparent !important;
+  animation-name: bg-anim;
+  animation-duration: 10s;
+  animation-direction: alternate;
+  animation-fill-mode: forwards;
+  animation-iteration-count: infinite;
+  animation-timing-function: linear;
+}

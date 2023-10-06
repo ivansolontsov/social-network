@@ -3,10 +3,11 @@ import {type FC, memo} from 'react';
 import PreloaderImage from '@/components/PreloaderImage/PreloaderImage';
 import {ButtonProps} from 'antd';
 import clsx from 'clsx';
+import {PLACEHOLDER_IMAGE} from '@/src/consts/routes';
 
 interface ChatsItemListProps {
   active?: boolean;
-  avatar: string;
+  avatar: string | undefined;
   name: string;
   date: string;
 }
@@ -27,7 +28,7 @@ const ChatsItemList: FC<ChatsItemListProps & ButtonProps> = ({
     >
       <PreloaderImage
         className={s.chatListAvatar}
-        src={avatar}
+        src={avatar ? avatar : PLACEHOLDER_IMAGE}
         alt={name}
       />
       <div className={s.chatListInfo}>

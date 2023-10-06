@@ -11,7 +11,7 @@ interface ChatMessageProps {
   avatar: string;
   isOnline?: boolean;
   name: string;
-  time: string;
+  time?: string;
   userId: number;
 }
 

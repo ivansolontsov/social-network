@@ -43,11 +43,13 @@ export const SocialPostCard: React.FC<Props> = ({data}) => {
       }
     } catch (e) {}
   };
+
+  console.log(data);
   return (
     <article className={s.socialPostCard}>
       <div className={s.socialPostCardHead}>
         <Link href={USER_PAGE + '/' + data.author.id}>
-          <Avatar size={50} src={data.author.avatar} />
+          <Avatar size={50} src={decodeURI(data.author.avatar)} />
         </Link>
         <div className={s.socialPostCardHeadTitle}>
           <Link href={USER_PAGE + '/' + data.author.id}>

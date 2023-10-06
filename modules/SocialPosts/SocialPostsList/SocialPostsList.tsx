@@ -12,6 +12,7 @@ type Props = {
 };
 
 export const SocialPostsList: FC<Props> = ({isLoading, posts}) => {
+  console.log(posts);
   return (
     <div className={s.socialPostsList}>
       {isLoading ? (
@@ -19,8 +20,8 @@ export const SocialPostsList: FC<Props> = ({isLoading, posts}) => {
       ) : (
         posts && (
           <>
-            {posts.map((post, index) => (
-              <SocialPostCard data={post} key={index} />
+            {posts.map((post) => (
+              <SocialPostCard data={post} key={post.id} />
             ))}
           </>
         )

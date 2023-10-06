@@ -18,3 +18,65 @@
   max-height: 100%;
   overflow-y: scroll;
 }
+
+.emptyChats {
+  padding: 15px;
+  opacity: 0.3;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 25px;
+}
+
+.emptyChatsIcon {
+  font-size: 32px;
+}
+
+.skeleton {
+  padding: 15px;
+  display: flex;
+  gap: 10px;
+
+  .skeletonAvatar {
+    min-width: 40px;
+    min-height: 40px;
+    width: 40px;
+    height: 40px;
+    @include skeleton;
+    border-radius: 100%;
+  }
+  .skeletonGroupFlex {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    flex-grow: 1;
+  }
+
+  .skeletonTitle {
+    display: flex;
+    flex-grow: 1;
+    min-height: 14px;
+    min-width: 150px;
+    @include skeleton;
+    border-radius: 4px;
+  }
+
+  .skeletonDate {
+    min-height: 14px;
+    min-width: 150px;
+    @include skeleton;
+    border-radius: 4px;
+  }
+}
+
+.myMessages {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  background-color: $blockColor;
+  border-left: 1px solid rgb(220 220 220 / 42%);
+  height: 100%;
+  overflow: hidden;
+}

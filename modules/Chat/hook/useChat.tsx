@@ -5,15 +5,18 @@ import {getCookie} from 'cookies-next';
 export default function useChat() {
   const [socket, setSocket] = useState<Socket>();
   useEffect(() => {
-    const newSocket = io(`wss://${process.env.APP_BASE_URL}/chats`, {
-      transportOptions: {
-        polling: {
-          extraHeaders: {
-            Authorization: `Bearer ${getCookie('accessToken')}`
+    const newSocket = io(
+      `${process.env.WEBSOCKET_PROTOCOL}://${process.env.APP_BASE_URL}/chats`,
+      {
+        transportOptions: {
+          polling: {
+            extraHeaders: {
+              Authorization: `Bearer ${getCookie('accessToken')}`
+            }
           }
         }
       }
-    });
+    );
     setSocket(newSocket);
     return () => {
       if (socket) socket.close();

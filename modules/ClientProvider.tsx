@@ -1,12 +1,11 @@
 'use client';
 import React, {useEffect, useState} from 'react';
-import {
-  QueryClient,
-  QueryClientProvider,
-  useQueryClient
-} from '@tanstack/react-query';
+import {QueryClient, QueryClientProvider} from '@tanstack/react-query';
 import UserAuthWatcher from './User/components/UserAuthWatcher/UserAuthWatcher';
 import 'dayjs/locale/ru';
+import {ConfigProvider} from 'antd';
+import ru from 'antd/locale/ru_RU';
+import {AntdTheme} from '@/modules/Theme/AntdConfigs';
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -24,9 +23,11 @@ function ClientProvider({children}: {children: React.ReactNode}) {
 
   if (!mounted) return null;
   return (
-    <QueryClientProvider client={queryClient}>
-      <UserAuthWatcher>{children}</UserAuthWatcher>
-    </QueryClientProvider>
+    <ConfigProvider locale={ru} theme={AntdTheme}>
+      <QueryClientProvider client={queryClient}>
+        <UserAuthWatcher>{children}</UserAuthWatcher>
+      </QueryClientProvider>
+    </ConfigProvider>
   );
 }
 

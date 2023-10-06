@@ -9,27 +9,35 @@ import {
   useRef,
   useState
 } from 'react';
-import {Button, Form, Input} from 'antd';
+import {Button, Form, Input, message} from 'antd';
 import {io, Socket} from 'socket.io-client';
 import {useUsersStore} from '@/modules/User/store';
 import ChatMessage from '@/modules/Chat/ChatMessage/ChatMessage';
 import {useQuery} from '@tanstack/react-query';
 import {getMessagesByIdFetcher} from '@/modules/Chat/api';
 import {IMessage} from '@/modules/Chat/type';
-import useChat from '@/modules/Chat/hook/useChat';
 import {IUser} from '@/modules/User/type';
+import useCustomDebounce from '@/src/helpers/hooks/useCustomDebounce';
+import {PLACEHOLDER_IMAGE} from '@/src/consts/routes';
+import {getCookie} from 'cookies-next';
 
 interface MyMessagesProps {
-  chatId?: string;
+  chatId: string | undefined;
 }
 
 const MyMessages: FC<MyMessagesProps> = ({chatId}) => {
+  const [socket, setSocket] = useState<Socket>();
   const [enemyUser, setEnemyUser] = useState<IUser>();
   const [messages, setMessages] = useState<IMessage[]>([]);
+  const [typing, setTyping] = useState<boolean>(false);
   const [inputValue, setInputValue] = useState('');
   const chatContainer = useRef<HTMLDivElement>(null);
 
-  const {socket} = useChat();
+  const [debouncedValue, isDebouncing] = useCustomDebounce(
+    inputValue,
+    1000
+  );
+
   const {user} = useUsersStore((store) => store);
 
   const {
@@ -48,24 +56,72 @@ const MyMessages: FC<MyMessagesProps> = ({chatId}) => {
   );
 
   useEffect(() => {
+    const newSocket = io(
+      `${process.env.WEBSOCKET_PROTOCOL}://${process.env.APP_BASE_URL}/chats`,
+      {
+        transportOptions: {
+          polling: {
+            extraHeaders: {
+              Authorization: `Bearer ${getCookie('accessToken')}`
+            }
+          }
+        }
+      }
+    );
+    setSocket(newSocket);
+    return () => {
+      if (socket) socket.close();
+    };
+  }, []);
+
+  useEffect(() => {
     if (messagesList && chatId) {
       setMessages(messagesList);
     }
   }, [isMessagedSuccessfullyLoaded]);
 
   useEffect(() => {
-    if (socket) {
+    if (socket && chatId) {
+      socket.emit('handleTyping', {chatId: chatId, typing: isDebouncing});
+    }
+  }, [chatId, socket, isDebouncing]);
+
+  useEffect(() => {
+    if (socket && chatId) {
       socket.emit('joinChatById', {chatId: chatId});
+    }
+  }, [socket, chatId]);
+
+  useEffect(() => {
+    if (socket && chatId) {
+      socket.on('errorEvent', (data: string) => {
+        message.error(data);
+      });
       socket.on(
         'roomJoined',
         (data: {chatId: number; members: IUser[]}) => {
           setEnemyUser(data.members.shift());
+          message.success('Успешно законнектились к чату');
         }
       );
       socket.on('newMessage', (data: IMessage) => {
         setMessages((prev) => [...prev, data]);
       });
+      socket.on(
+        'userTyping',
+        (data: {userId: number; typing: boolean}) => {
+          if (data.userId === enemyUser?.id) {
+            setTyping(data.typing);
+          }
+        }
+      );
     }
+    return () => {
+      socket?.off('errorEvent');
+      socket?.off('roomJoined');
+      socket?.off('newMessage');
+      socket?.off('userTyping');
+    };
   }, [socket]);
 
   const sendMessage = useCallback(() => {
@@ -82,10 +138,12 @@ const MyMessages: FC<MyMessagesProps> = ({chatId}) => {
   }, [messages]);
 
   return (
-    <div className={s.myMessages}>
+    <>
       {chatId && (
         <>
-          <div className={s.chatPanel}>Чат с пользователем</div>
+          <div className={s.chatPanel}>
+            Чат с пользователем {enemyUser?.firstName}
+          </div>
           <div className={s.chat}>
             <div className={s.chatMessagesContainer} ref={chatContainer}>
               <ul className={s.chatMessages}>
@@ -95,12 +153,25 @@ const MyMessages: FC<MyMessagesProps> = ({chatId}) => {
                       key={e.id}
                       message={e.message}
                       isEnemyMessage={user.id !== e.userId}
-                      avatar={e.avatar}
+                      avatar={e.avatar ? e.avatar : PLACEHOLDER_IMAGE}
                       name={e.name}
                       userId={e.userId}
                       time={e.createdAt}
                     />
                   ))}
+                {typing && enemyUser && (
+                  <ChatMessage
+                    message={'...'}
+                    isEnemyMessage={true}
+                    avatar={
+                      enemyUser.avatar
+                        ? enemyUser.avatar
+                        : PLACEHOLDER_IMAGE
+                    }
+                    name={enemyUser.lastName}
+                    userId={enemyUser.id}
+                  />
+                )}
               </ul>
             </div>
           </div>
@@ -111,13 +182,13 @@ const MyMessages: FC<MyMessagesProps> = ({chatId}) => {
               onChange={(e) => setInputValue(e.target.value)}
               size={'large'}
             />
-            <Button type={'primary'} size={'large'}>
+            <Button type={'primary'} htmlType={'submit'} size={'large'}>
               Отправить
             </Button>
           </Form>
         </>
       )}
-    </div>
+    </>
   );
 };
 

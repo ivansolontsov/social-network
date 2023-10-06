@@ -6,6 +6,10 @@ const nextConfig = {
       {
         protocol: 'https',
         hostname: 'socialnetwork.gearboost.eu'
+      },
+      {
+        protocol: 'http',
+        hostname: 'localhost'
       }
     ]
   },
@@ -14,7 +18,8 @@ const nextConfig = {
   },
   env: {
     APP_BASE_URL: process.env.APP_BASE_URL,
-    APP_PROTOCOL: process.env.APP_PROTOCOL
+    APP_PROTOCOL: process.env.APP_PROTOCOL,
+    WEBSOCKET_PROTOCOL: process.env.WEBSOCKET_PROTOCOL
   }
 };
 

@@ -111,6 +111,7 @@ const SignIn = (props: Props) => {
           <Button
             disabled={isSuccess || loading}
             loading={loading}
+            htmlType={'submit'}
             type='primary'
             block={true}
             size='large'
