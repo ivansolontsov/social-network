@@ -27,7 +27,7 @@ const UserBackground = ({id, isLoading, user}: Props) => {
 
   const [isImageLoading, setIsImageLoading] = useState<boolean>(false);
   const [bgInfo, setBgInfo] = useState<{
-    url: string;
+    url: string | undefined;
     firstName: string;
     lastName: string;
   }>();

@@ -34,7 +34,7 @@ const UserPageAvatar = ({user, isLoading}: Props) => {
   } = useMutation(updateUserAvatarFetcher);
 
   const [avatarInfo, setAvatarInfo] = useState<{
-    url: string;
+    url: string | undefined;
     firstName: string;
     lastName: string;
   }>();
@@ -87,7 +87,7 @@ const UserPageAvatar = ({user, isLoading}: Props) => {
               const formData = new FormData();
               formData.append('image', info.file.originFileObj);
               await updateAvatar(formData);
-              getBase64(info.file.originFileObj, (url) => {
+              await getBase64(info.file.originFileObj, (url) => {
                 setUser({...currentUser, avatar: url});
                 setAvatarInfo({
                   url: url,
@@ -143,7 +143,7 @@ const UserPageAvatar = ({user, isLoading}: Props) => {
           src={avatarInfo.url}
           alt={avatarInfo.firstName + ' ' + avatarInfo.lastName}
           onClick={() => {
-            openImagePreview(avatarInfo.url);
+            avatarInfo.url && openImagePreview(avatarInfo.url);
           }}
           objectFit='cover'
         />
@@ -163,7 +163,7 @@ const UserPageAvatar = ({user, isLoading}: Props) => {
         {avatar}
       </Popover>
       <Modal open={openPreview} setOpen={setOpenPreview}>
-        {avatarInfo && (
+        {avatarInfo && avatarInfo.url && (
           <PreloaderImage
             src={avatarInfo?.url}
             alt='Фотография'
