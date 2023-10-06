@@ -122,7 +122,7 @@ const MyMessages: FC<MyMessagesProps> = ({chatId}) => {
       socket?.off('newMessage');
       socket?.off('userTyping');
     };
-  }, [socket]);
+  }, [socket, enemyUser]);
 
   const sendMessage = useCallback(() => {
     if (socket) {
