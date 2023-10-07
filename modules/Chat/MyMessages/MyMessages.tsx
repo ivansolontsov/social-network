@@ -95,13 +95,12 @@ const MyMessages: FC<MyMessagesProps> = ({chatId}) => {
   useEffect(() => {
     if (socket && chatId) {
       socket.on('errorEvent', (data: string) => {
-        message.error(data);
+        message.error(`WS: ${data}`);
       });
       socket.on(
         'roomJoined',
         (data: {chatId: number; members: IUser[]}) => {
           setEnemyUser(data.members.find((e) => e.id !== user.id));
-          message.success('Успешно законнектились к чату');
         }
       );
       socket.on('newMessage', (data: IMessage) => {
