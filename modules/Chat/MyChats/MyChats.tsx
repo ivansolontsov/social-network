@@ -1,24 +1,33 @@
 'use client';
 
 import s from './MyChats.module.scss';
-import {type FC, memo, useState} from 'react';
+import {type FC, memo, useEffect, useState} from 'react';
 import {useQuery} from '@tanstack/react-query';
 import {getUserChatsFetcher} from '@/modules/Chat/api';
 import ChatsItemList from '@/components/ui/ChatsItemList/ChatsItemList';
 import MyMessages from '@/modules/Chat/MyMessages/MyMessages';
 import dayjs from 'dayjs';
 import {MessageOutlined} from '@ant-design/icons';
+import {useSearchParams} from 'next/navigation';
 
 interface MyChatsProps {
   children?: React.ReactNode;
 }
 
 const MyChats: FC<MyChatsProps> = () => {
+  const searchParams = useSearchParams();
   const {data, isLoading, isSuccess} = useQuery(
     ['chatList'],
     getUserChatsFetcher
   );
   const [chatId, setChatId] = useState<undefined | string>();
+
+  useEffect(() => {
+    const chatId = searchParams.get('chat');
+    if (chatId) {
+      setChatId(chatId);
+    }
+  }, []);
 
   return (
     <div className={s.myChats}>

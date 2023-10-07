@@ -3,7 +3,8 @@ import {DetailedHTMLProps, type FC, LiHTMLAttributes, memo} from 'react';
 import clsx from 'clsx';
 import PreloaderImage from '@/components/PreloaderImage/PreloaderImage';
 import {BubbleTipIcon} from '@/components/ui/icons/BubbleTipIcon';
-import {PLACEHOLDER_IMAGE} from '@/src/consts/routes';
+import {PLACEHOLDER_IMAGE, USER_PAGE} from '@/src/consts/routes';
+import Link from 'next/link';
 
 interface ChatMessageProps {
   isEnemyMessage?: boolean;
@@ -36,12 +37,13 @@ const ChatMessage: FC<
       })}
       {...attributes}
     >
-      <PreloaderImage
-        className={s.userChatAvatar}
-        src={avatar ? avatar : PLACEHOLDER_IMAGE}
-        alt={'user avatar'}
-      />
-
+      <Link href={USER_PAGE + '/' + userId}>
+        <PreloaderImage
+          className={s.userChatAvatar}
+          src={avatar ? avatar : PLACEHOLDER_IMAGE}
+          alt={name}
+        />
+      </Link>
       <span className={s.chatMessageBubble}>
         <BubbleTipIcon className={s.messageCorner} />
         {message}

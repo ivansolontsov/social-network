@@ -20,6 +20,7 @@ import {IUser} from '@/modules/User/type';
 import useCustomDebounce from '@/src/helpers/hooks/useCustomDebounce';
 import {PLACEHOLDER_IMAGE} from '@/src/consts/routes';
 import {getCookie} from 'cookies-next';
+import {LoadingOutlined} from '@ant-design/icons';
 
 interface MyMessagesProps {
   chatId: string | undefined;
@@ -27,6 +28,7 @@ interface MyMessagesProps {
 
 const MyMessages: FC<MyMessagesProps> = ({chatId}) => {
   const [socket, setSocket] = useState<Socket>();
+  const [loading, setLoading] = useState(true);
   const [enemyUser, setEnemyUser] = useState<IUser>();
   const [messages, setMessages] = useState<IMessage[]>([]);
   const [typing, setTyping] = useState<boolean>(false);
@@ -100,6 +102,7 @@ const MyMessages: FC<MyMessagesProps> = ({chatId}) => {
       socket.on(
         'roomJoined',
         (data: {chatId: number; members: IUser[]}) => {
+          setLoading(false);
           setEnemyUser(data.members.find((e) => e.id !== user.id));
         }
       );
@@ -141,7 +144,8 @@ const MyMessages: FC<MyMessagesProps> = ({chatId}) => {
       {chatId && (
         <>
           <div className={s.chatPanel}>
-            Чат с пользователем {enemyUser?.firstName}
+            <span>Чат с пользователем {enemyUser?.firstName}</span>
+            {loading && <LoadingOutlined />}
           </div>
           <div className={s.chat}>
             <div className={s.chatMessagesContainer} ref={chatContainer}>
