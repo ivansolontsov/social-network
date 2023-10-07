@@ -37,11 +37,11 @@ export const SideNavigation: React.FC<Props> = (props) => {
       <Link className={s.sideNavigationLink} href={CHATS_PAGE}>
         <MessageOutlined className={s.sideNavigationIcon} /> Сообщения
       </Link>
-      <Link className={s.sideNavigationLink} href={'/friends'}>
-        <UsergroupAddOutlined className={s.sideNavigationIcon} /> Мои
-        Друзья
-        <span className={s.linkNotification}>1</span>
-      </Link>
+      {/*<Link className={s.sideNavigationLink} href={'/friends'}>*/}
+      {/*  <UsergroupAddOutlined className={s.sideNavigationIcon} /> Мои*/}
+      {/*  Друзья*/}
+      {/*  <span className={s.linkNotification}>1</span>*/}
+      {/*</Link>*/}
       <Link
         href={'#'}
         className={s.sideNavigationLink}
