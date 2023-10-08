@@ -1,0 +1,56 @@
+.userPage {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  gap: 15px;
+}
+
+.userPageHeader {
+  display: flex;
+  width: 100%;
+  flex-direction: column;
+  background: $blockColor;
+  border-radius: 0px 0px 60px 60px;
+  position: relative;
+  padding-bottom: 80px;
+  margin-top: -15px;
+}
+
+.userPageHeaderContent {
+  padding: 15px;
+  position: absolute;
+  bottom: 0px;
+  display: flex;
+  align-items: flex-end;
+  gap: 15px;
+}
+
+.userPagePersonName {
+  display: flex;
+  flex-direction: column;
+
+  h1 {
+    font-size: 24px;
+    margin: 0;
+    padding: 0;
+    position: relative;
+    gap: 15px;
+    font-family: var(--roboto-font);
+    font-weight: bold;
+
+    span {
+      display: flex;
+      width: 100%;
+    }
+  }
+
+  small {
+    // position: absolute;
+    background-color: $backgroundColor;
+    font-weight: 100;
+    padding: 2px 8px;
+    border-radius: $blockRadius;
+    color: $textColor;
+    font-size: 12px;
+  }
+}

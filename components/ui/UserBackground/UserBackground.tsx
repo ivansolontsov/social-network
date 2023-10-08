@@ -8,6 +8,7 @@ import {useMutation, useQueryClient} from '@tanstack/react-query';
 import {updateUserBackgroundFetcher} from '@/modules/User/api';
 import {useUsersStore} from '@/modules/User/store';
 import {getBase64} from '@/src/helpers/getBase64';
+import {PLACEHOLDER_IMAGE} from '@/src/consts/routes';
 
 type Props = {
   user: IUser | undefined;
@@ -35,18 +36,9 @@ const UserBackground = ({id, isLoading, user}: Props) => {
   useEffect(() => {
     if (user) {
       setBgInfo({
-        firstName:
-          user.id === currentUser.id
-            ? currentUser.firstName
-            : user?.firstName,
-        lastName:
-          user.id === currentUser.id
-            ? currentUser.lastName
-            : user?.lastName,
-        url:
-          user.id === currentUser.id
-            ? currentUser.background
-            : user?.background
+        firstName: user.firstName,
+        lastName: user.lastName,
+        url: user.background ? user.background : PLACEHOLDER_IMAGE
       });
     }
   }, [user, isLoading]);

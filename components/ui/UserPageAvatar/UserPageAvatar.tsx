@@ -18,6 +18,7 @@ import {useMutation} from '@tanstack/react-query';
 import {updateUserAvatarFetcher} from '@/modules/User/api';
 import Modal from '../Modal/Modal';
 import CreateChatButton from '@/modules/Chat/CreateChatButton/CreateChatButton';
+import {PLACEHOLDER_IMAGE} from '@/src/consts/routes';
 
 type Props = {
   isLoading: boolean;
@@ -26,7 +27,6 @@ type Props = {
 
 const UserPageAvatar = ({user, isLoading}: Props) => {
   const {user: currentUser, setUser} = useUsersStore((store) => store);
-
   const {
     mutateAsync: updateAvatar,
     isLoading: isAvatarUpdating,
@@ -44,15 +44,9 @@ const UserPageAvatar = ({user, isLoading}: Props) => {
   useEffect(() => {
     if (user) {
       setAvatarInfo({
-        firstName:
-          user.id === currentUser.id
-            ? currentUser.firstName
-            : user?.firstName,
-        lastName:
-          user.id === currentUser.id
-            ? currentUser.lastName
-            : user?.lastName,
-        url: user.id === currentUser.id ? currentUser.avatar : user?.avatar
+        firstName: user.firstName,
+        lastName: user.lastName,
+        url: user.avatar ? user.avatar : PLACEHOLDER_IMAGE
       });
     }
   }, [user, isLoading]);
@@ -135,21 +129,13 @@ const UserPageAvatar = ({user, isLoading}: Props) => {
 
   const avatar = (
     <>
-      {isLoading || isImageLoading || isAvatarUpdating ? (
-        <Skeleton.Avatar active={true} size={100} />
-      ) : avatarInfo?.url ? (
-        <PreloaderImage
-          className={s.userPageAvatar}
-          src={avatarInfo.url}
-          alt={avatarInfo.firstName + ' ' + avatarInfo.lastName}
-          onClick={() => {
-            avatarInfo.url && openImagePreview(avatarInfo.url);
-          }}
-          objectFit='cover'
-        />
-      ) : (
-        <Avatar size={90} />
-      )}
+      <PreloaderImage
+        className={s.userPageAvatar}
+        src={currentUser.avatar ? currentUser.avatar : PLACEHOLDER_IMAGE}
+        alt={''}
+        onClick={() => {}}
+        objectFit='cover'
+      />
     </>
   );
 

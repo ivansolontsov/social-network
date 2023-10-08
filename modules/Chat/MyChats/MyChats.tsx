@@ -61,7 +61,7 @@ const MyChats: FC<MyChatsProps> = () => {
               name={e.enemyUser.name}
               date={dayjs(e.chat.lastMessageDate)
                 .locale('ru')
-                .format('DD MMMM')}
+                .format('D MMMM HH:mm:ss')}
               avatar={e.enemyUser.avatar}
               onClick={() => setChatId(e.chat.id.toString())}
             />

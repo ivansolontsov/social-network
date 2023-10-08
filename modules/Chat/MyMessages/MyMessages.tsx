@@ -9,11 +9,11 @@ import {
   useRef,
   useState
 } from 'react';
-import {Button, Form, Input, message} from 'antd';
+import {Avatar, Button, Form, Input, message} from 'antd';
 import {io, Socket} from 'socket.io-client';
 import {useUsersStore} from '@/modules/User/store';
 import ChatMessage from '@/modules/Chat/ChatMessage/ChatMessage';
-import {useQuery} from '@tanstack/react-query';
+import {useQuery, useQueryClient} from '@tanstack/react-query';
 import {getMessagesByIdFetcher} from '@/modules/Chat/api';
 import {IMessage} from '@/modules/Chat/type';
 import {IUser} from '@/modules/User/type';
@@ -34,7 +34,7 @@ const MyMessages: FC<MyMessagesProps> = ({chatId}) => {
   const [typing, setTyping] = useState<boolean>(false);
   const [inputValue, setInputValue] = useState('');
   const chatContainer = useRef<HTMLDivElement>(null);
-
+  const queryClient = useQueryClient();
   const [debouncedValue, isDebouncing] = useCustomDebounce(
     inputValue,
     1000
@@ -126,9 +126,10 @@ const MyMessages: FC<MyMessagesProps> = ({chatId}) => {
     };
   }, [socket, enemyUser]);
 
-  const sendMessage = useCallback(() => {
+  const sendMessage = useCallback(async () => {
     if (socket) {
       socket.emit('sendMessage', {chatId: chatId, message: inputValue});
+      await queryClient.invalidateQueries(['chatList']);
       setInputValue('');
     }
   }, [chatId, socket, inputValue]);
@@ -144,8 +145,15 @@ const MyMessages: FC<MyMessagesProps> = ({chatId}) => {
       {chatId && (
         <>
           <div className={s.chatPanel}>
-            <span>Чат с пользователем {enemyUser?.firstName}</span>
-            {loading && <LoadingOutlined />}
+            <Avatar
+              src={
+                enemyUser?.avatar ? enemyUser.avatar : PLACEHOLDER_IMAGE
+              }
+            />
+            <span>
+              Чат с пользователем <strong>{enemyUser?.firstName}</strong>
+            </span>
+            {loading && <LoadingOutlined className={s.loadingIcon} />}
           </div>
           <div className={s.chat}>
             <div className={s.chatMessagesContainer} ref={chatContainer}>
@@ -178,7 +186,11 @@ const MyMessages: FC<MyMessagesProps> = ({chatId}) => {
               </ul>
             </div>
           </div>
-          <Form className={s.sendButton} onFinish={sendMessage}>
+          <Form
+            className={s.sendButton}
+            onFinish={sendMessage}
+            disabled={loading}
+          >
             <Input
               placeholder={'Напишите сообщение и нажмите Enter'}
               value={inputValue}
