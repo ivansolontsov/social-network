@@ -83,7 +83,7 @@ const MyMessages: FC<MyMessagesProps> = ({chatId}) => {
   }, [isMessagedSuccessfullyLoaded]);
 
   useEffect(() => {
-    if (socket && chatId) {
+    if (socket && chatId && inputValue.length !== 0) {
       socket.emit('handleTyping', {chatId: chatId, typing: isDebouncing});
     }
   }, [chatId, socket, isDebouncing]);
@@ -128,6 +128,7 @@ const MyMessages: FC<MyMessagesProps> = ({chatId}) => {
 
   const sendMessage = useCallback(async () => {
     if (socket) {
+      socket.emit('handleTyping', {chatId: chatId, typing: false});
       socket.emit('sendMessage', {chatId: chatId, message: inputValue});
       await queryClient.invalidateQueries(['chatList']);
       setInputValue('');
