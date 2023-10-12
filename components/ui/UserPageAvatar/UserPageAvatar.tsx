@@ -131,7 +131,7 @@ const UserPageAvatar = ({user, isLoading}: Props) => {
     <>
       <PreloaderImage
         className={s.userPageAvatar}
-        src={currentUser.avatar ? currentUser.avatar : PLACEHOLDER_IMAGE}
+        src={avatarInfo?.url ? avatarInfo.url : PLACEHOLDER_IMAGE}
         alt={''}
         onClick={() => {}}
         objectFit='cover'
